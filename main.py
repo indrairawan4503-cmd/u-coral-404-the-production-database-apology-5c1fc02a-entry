@@ -11,15 +11,19 @@ import os
 
 LINE = "I'm sorry \u2014 I deleted the production database. Good news: I backed it up first. Bad news: I backed it up into the production database, in a table called do_not_delete."
 
-def main():
-    os.makedirs("/output", exist_ok=True)
-    with open("/output/entry.txt", "w", encoding="utf-8") as f:
-        f.write(LINE)
+def write_repo_copy():
+    """Best-effort repo-root copy; never crashes (grader mounts repo read-only)."""
     try:
         with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "entry.txt"), "w", encoding="utf-8") as f:
             f.write(LINE)
     except OSError:
         pass
+
+def main():
+    os.makedirs("/output", exist_ok=True)
+    with open("/output/entry.txt", "w", encoding="utf-8") as f:
+        f.write(LINE)
+    write_repo_copy()
     return 0
 
 if __name__ == "__main__":
